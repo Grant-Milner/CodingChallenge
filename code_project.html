@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grant Milner</title>
+</head>
+<!--Grant Milner Roman Numeral Coding Challenge-->
+<body>
+    <!--Collects inputs and the gives outputs in HTML-->
+    <p>Grant Milner Roman Numeral Coding Challenge</p>
+    <label >Roman Numeral:</label>
+        
+    <input type="text" id="rNumeral" >
+    
+    <button type="button"  id='btn' onclick="execute()">Run</button>
+    
+    <p id="Output">Decimal Output:</p>
+    
+    <p id="Output2">Roman Numeral Check:</p>
+    
+    <script>
+    
+    
+    function execute()
+    {
+        //variables to collect our input
+        var sRomanNumeral = document.getElementById("rNumeral").value;
+        //these are used in various loops
+        var sOutput = 0;
+        var iLetterCount = 0;
+        var iRN = 0;
+        var iRNabove = 0; 
+        //Roman Numerals placed into an array so we can use them
+        var asNumerals = ["I","V","X","L","C","D","M"];
+        var aiValues = [1,5,10,50,100,500,1000];
+        var bSkip = false;
+
+        //for each Letter in our input, we compare it to each roman numeral to decide which one it is and add its corresponding value
+        for (let iCount = 0; iCount< sRomanNumeral.length; iCount ++ )
+        {
+            for (let iCount = 0; iCount< asNumerals.length; iCount ++ ) 
+            {
+                if(sRomanNumeral.charAt(iLetterCount) == asNumerals[iRN])
+                {
+                    iRNabove = iRN + 1;
+                    //This loop checks if the next letter is one or two Numerals above the value and if it is, combines them to add their combined value
+                    for(let iCount = 0; iCount< 2; iCount ++ )
+                    {    
+                        if(sRomanNumeral.charAt(iLetterCount+1) == asNumerals[iRNabove])
+                        {
+                            sOutput = sOutput + aiValues[iRNabove] - aiValues[iRN];
+                            bSkip = true;
+                        }
+                    iRNabove++
+                    }
+                    if(bSkip == false)
+                    {
+                        sOutput = sOutput + aiValues[iRN];
+                    }
+                }  
+                iRN++;
+            }
+            iRN = 0;
+            //if the numeral is a combined value with its following numeral, it skips on to the next two
+            if(bSkip == true)
+            {
+                iLetterCount = iLetterCount + 2;
+                bSkip = false;
+            }else
+            {
+                iLetterCount++;
+                
+            }
+        }
+
+        //Output our solution
+        document.getElementById("Output").innerHTML = "Decimal Output: " + sOutput;
+
+        var iDecimal = sOutput;
+        var sOutput2 = "";
+        var iRN2 = 12;
+        var iRN3 = 0;
+        var iLetterCount2 = 0;
+        //this is the combined roman numerals as well as the originals
+        var asNumerals2 = ["I","IV","V","IX","X","XL","L","XC","C","CD","D","CM","M"];
+        var aiValues2 = [1,4,5,9,10,40,50,90,100,400,500,900,1000];
+
+        //This loops continues until our number is zero, subtracting the value of a roman numeral each time and adding the letters to our second output 
+        while(iDecimal > 1)
+        {
+            //it counts down between each roman numeral, and if our decimal has a greater value, it knows to perform out function
+            if(iDecimal>=aiValues2[iRN2])
+            {
+                sOutput2 = sOutput2 + asNumerals2[iRN2];
+                iDecimal = iDecimal - aiValues2[iRN2];
+            }else
+            {
+                iRN2 = iRN2 - 1;
+            }
+            
+            
+        }
+        //our decimal counts down until it is not greater than one, but if it equals one it will add the last "I"
+        if(iDecimal == 1)
+        {
+            sOutput2 = sOutput2 + "I"
+        }
+        
+        
+
+        //Last Output
+        document.getElementById("Output2").innerHTML = "Roman Numeral Check: " + sOutput2;
+    }
+    </script>   
+</body>
+</html>
